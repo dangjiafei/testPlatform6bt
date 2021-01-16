@@ -14,7 +14,6 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.contrib import admin
 from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 
@@ -27,7 +26,6 @@ from rest_framework.documentation import include_docs_urls
 # 5. 一旦匹配成功, 不会继续往下匹配
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include('projects.urls')),
     path('', include('interfaces.urls')),
     path('', include('reports.urls')),
@@ -36,8 +34,12 @@ urlpatterns = [
     path('', include('testsuites.urls')),
     path('', include('testcases.urls')),
     path('', include('configures.urls')),
-    # path('', include('summary.urls')),
-    path('docs', include_docs_urls(title='测试平台接口文档')),
-    # path('api', include('rest_framework.urls')),
-    # path('user', include('users.urls')),
+    path('', include('summary.urls')),
+    path('docs/', include_docs_urls(title='测试平台接口文档', description='接口文档')),
+
+    # 给可浏览的API页面添加认证入口
+    # a.DRF默认提供了两个页面
+    # b.一个是登录页面、登出页面（HTML）
+    path('api/', include('rest_framework.urls')),
+    path('user/', include('users.urls')),
 ]

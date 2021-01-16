@@ -41,6 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+
+    'users.apps.UsersConfig',
+    'projects.apps.ProjectsConfig',
+    'interfaces.apps.InterfacesConfig',
+    'configures.apps.ConfiguresConfig',
+    'debugtalks.apps.DebugtalksConfig',
+    'envs.apps.EnvsConfig',
+    'reports.apps.ReportsConfig',
+    'testcases.apps.TestcasesConfig',
+    'testsuites.apps.TestsuitesConfig',
+    'summary.apps.SummaryConfig',
 ]
 
 MIDDLEWARE = [
@@ -170,18 +181,22 @@ REST_FRAMEWORK = {
     # coreapi接口文档
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
-    # 指定认证类
+    # 指定认证类（认证方式）
+    # 绝大多数情况下，会在全局指定认证类
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        # 指定使用JWT Token认证
+        # 指定JWT Token认证机制
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-
-        # DRF框架默认使用的是用户会话认证
+        # a.session会话认证
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ],
-    # 指定授权类
+    
+    # 指定权限类（认证通过之后，会授予的权限）
+    # c.往往不会在全局指定权限类
     # 'DEFAULT_PERMISSION_CLASSES': [
-    #     # DRF框架默认的权限为AllowAny（允许所有用户来访问）
+    # a.默认的权限类为AllowAny，允许所有用户返回接口
+    # 'rest_framework.permissions.AllowAny',
+    # b.指定只有登录之后，才具有访问接口的权限
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
 }
@@ -203,39 +218,46 @@ LOGGING = {
     'version': 1,  # 日志的版本号
     'disable_existing_loggers': False,  # 日志处理器
     'formatters': {
+        # 指定更详细的日志输出格式
         'verbose': {
             'format': '%(asctime)s - [%(levelname)s] - %(name)s - [msg]%(massage)s - [%(filename)s:%(lineno)d ]'
         },
+        # 指定普通的日志输出格式
         'simple': {
             'format': '%(asctime)s - [%(levelname)s] - [msg]%(massage)s'
         },
     },
+    # 指定日志的过滤器
     'filters': {
         'require_debug_true': {
             '()': 'django.utils.log.RequireDebugTrue',
         },
     },
+    # 定义日志的输出渠道
     'handlers': {
+        # 指定控制台日志输出渠道
         'console': {
             'level': 'DEBUG',
             'filters': ['require_debug_true'],
             'class': 'logging.StreamHandler',
             'formatter': 'simple'
         },
+        # 指定日志输出到文件的配置
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, "logs/test.log"),
-            'maxBytes': 100 * 1024 * 1024,
-            'backupCount': 10,
+            'filename': os.path.join(BASE_DIR, "logs/test.log"),  # 文件的位置
+            'maxBytes': 100 * 1024 * 1024,  # 每一个日志文件的最大字节数
+            'backupCount': 10,  # 指定日志文件总数
             'formatter': 'verbose',
             'encoding': 'utf-8',
         },
     },
     'loggers': {
-        'test': {
+        # 定义一个名为log的日志器
+        'log': {
             'handlers': ['console', 'file'],
-            'propagate': True,
+            'propagate': True,  # 是否轮转
             'level': 'DEBUG',  # 日志器接收的最低日志级别
         },
     }
