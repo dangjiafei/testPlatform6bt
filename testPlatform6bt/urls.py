@@ -13,9 +13,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.documentation import include_docs_urls
+
+
+# 全局路由配置信息
+# 1. urlpatterns为固定名称的列表
+# 2. 列表中的一个元素, 代表一条路由信息
+# 3. 从上到下来匹配, 如果能匹配上, Django会自动调用path函数的第二个参数指定的视图(函数视图或者类视图)
+# 4. 如果匹配不上, 会自动抛出一个404异常(默认为404页面, 状态码为404)
+# 5. 一旦匹配成功, 不会继续往下匹配
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('projects.urls')),
+    path('', include('interfaces.urls')),
+    path('', include('reports.urls')),
+    path('', include('envs.urls')),
+    path('', include('debugtalks.urls')),
+    path('', include('testsuites.urls')),
+    path('', include('testcases.urls')),
+    path('', include('configures.urls')),
+    # path('', include('summary.urls')),
+    path('docs', include_docs_urls(title='测试平台接口文档')),
+    # path('api', include('rest_framework.urls')),
+    # path('user', include('users.urls')),
 ]
