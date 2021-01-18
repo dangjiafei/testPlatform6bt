@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'corsheaders',
 
     'users.apps.UsersConfig',
     'projects.apps.ProjectsConfig',
@@ -69,8 +70,6 @@ MIDDLEWARE = [
 # CORS_ORIGIN_ALLOW_ALL为True，指定所有域名（IP）都可以访问后端接口，默认为False
 CORS_ORIGIN_ALLOW_ALL = True
 
-# 允许跨域时携带Cookie，默认为False
-CORS_ALLOW_ALL = True
 
 # 允许跨域时携带cookie，默认为False
 CORS_ALLOW_CREDENTIALS = True
@@ -156,11 +155,11 @@ STATIC_URL = '/static/'
 
 
 # REST_FRAMEWORK的配置
-"""
+
 REST_FRAMEWORK = {
     # 默认响应渲染类
     'DEFAULT_RENDERER_CLASSES': (
-        # json渲染器为第一优先级
+        # Json渲染器为第一优先级
         'rest_framework.renderers.JSONRenderer',
         # 可浏览的API渲染器为第二优先级
         'rest_framework.renderers.BrowsableAPIRenderer'
@@ -173,45 +172,48 @@ REST_FRAMEWORK = {
     ],
 
     # DEFAULT_PAGINATION_CLASS全局指定分页引擎类
-    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'utils.handle_pagination.PageNumberPagination',
     # 一定要指定, 每一页获取的条数
     'PAGE_SIZE': 10,
 
     # coreapi接口文档
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 
-    # 指定认证类（认证方式）
-    # 绝大多数情况下，会在全局指定认证类
+    # 指定认证类（认证方式），绝大多数情况下，会在全局指定认证类
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 指定JWT Token认证机制
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        # a.session会话认证
+        # session会话认证
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication'
     ],
     
     # 指定权限类（认证通过之后，会授予的权限）
-    # c.往往不会在全局指定权限类
+    # 往往不会在全局指定权限类
     # 'DEFAULT_PERMISSION_CLASSES': [
-    # a.默认的权限类为AllowAny，允许所有用户返回接口
+    # 默认的权限类为AllowAny，允许所有用户返回接口
     # 'rest_framework.permissions.AllowAny',
-    # b.指定只有登录之后，才具有访问接口的权限
+    # 指定只有登录之后，才具有访问接口的权限
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
 }
-"""
-"""
-# token配置
+
+
+# a、可以在JWT_AUTH中覆盖jwt的全局配置信息
 JWT_AUTH = {
-    # token过期时间
+    # b、指定自定义项目结果处理的函数
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.handle_jwt.jwt_response_payload_handler',
+    # c、指定token有效期，默认为5分钟
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
-    # 前端传递token值，Authorization作为key，值为JWT xxx
-    # 'JWT_AUTH_HEADER_PREFIX': 'JWT',
-    # 对返回的数据进行重写
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.jwt_handler.jwt_response_payload_handler',
+    # d、修改前端创建token时，请求头值的前缀，默认JWT
+    # e、在请求头中，Authorization: JWT 具体的token值
+    # 'JWT_AUTH_HEADER_PREFIX': 'Bear',
 }
-"""
+
+
+# 指定使用自定义的用户模型
+# AUTH_USER_MODEL = 'users.UserModel'
+
 
 # 日志配置
 LOGGING = {
