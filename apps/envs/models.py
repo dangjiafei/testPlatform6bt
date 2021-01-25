@@ -5,7 +5,7 @@ class Envs(models.Model):
     """
     环境模型类
     """
-    id = models.AutoField(verbose_name="ID", primary_key=True, help_text="ID")
+    id = models.AutoField(verbose_name="环境ID", primary_key=True, help_text="环境ID")
     name = models.CharField(verbose_name="环境名称", max_length=200, unique=True, help_text="环境名称")
     base_url = models.URLField(verbose_name="请求base_url", max_length=200, help_text="请求base_url")
     desc = models.CharField(verbose_name="简要描述", max_length=200, help_text="简要描述")

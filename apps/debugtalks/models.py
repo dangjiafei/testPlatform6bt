@@ -7,7 +7,7 @@ class DebugTalks(models.Model):
     """
     id = models.AutoField(verbose_name="ID", primary_key=True, help_text="ID")
     name = models.CharField(verbose_name="debugtalk文件名称", max_length=200, default="debugtalk.py",
-                            help_text="debugtalk文件名称", )
+                            help_text="debugtalk文件名称")
     debugtalk = models.TextField(null=True, default="#debugtalk.py", help_text="debugtalk.py文件")
     project = models.OneToOneField("projects.Projects", on_delete=models.CASCADE, related_name="debugtalks",
                                    help_text="所属项目")

@@ -155,21 +155,28 @@ STATIC_URL = '/static/'
 
 
 # REST_FRAMEWORK的配置
-
 REST_FRAMEWORK = {
-    # 默认响应渲染类
-    'DEFAULT_RENDERER_CLASSES': (
-        # Json渲染器为第一优先级
-        'rest_framework.renderers.JSONRenderer',
-        # 可浏览的API渲染器为第二优先级
-        'rest_framework.renderers.BrowsableAPIRenderer'
-    ),
 
-    # django_filters.rest_framework.backends.DjangoFilterBackend
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-        'rest_framework.filters.OrderingFilter'
+    # a.定义解析器类，用于解析不通的前端参数类型
+    # b.会自动根据请求头中Content-Type来解析参数
+    # c.无论前端传递这三种参数中的哪一种参数，都可以使用request.data去获取
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
     ],
+    # a.定义渲染类，用于返回不同类型的数据
+    # b.会自动根据请求头中Accept进行渲染
+    # c.如果前端不指定Accept，那么默认返回json格式的数据
+    # d.如果指定Accept为application/json，那么也会以json数据返回
+    # e.如果指定Accept为text/html（浏览器发起GET请求会自动指定），那么会以html形式返回
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    #     'rest_framework.renderers.BrowsableAPIRenderer',
+    # ],
+    # 'DEFAULT_FILTER_BACKENDS': ['rest_framework.filters.SearchFilter',
+    # 'rest_framework.filters.OrderingFilter'],
+    # 'SEARCH_PARAM': 'search',
 
     # DEFAULT_PAGINATION_CLASS全局指定分页引擎类
     'DEFAULT_PAGINATION_CLASS': 'utils.handle_pagination.PageNumberPagination',

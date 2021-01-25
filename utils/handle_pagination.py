@@ -2,23 +2,27 @@ from rest_framework.pagination import PageNumberPagination as _PageNumberPaginat
 
 
 class PageNumberPagination(_PageNumberPagination):
-    # 前端用户指定的页面key的名称
-    # page_query_param = 'page'
-    # 前端用户指定的每一页条数key的名称
+
+    # 指定前端获取哪一页的key值
+    page_query_param = 'page'
+
+    # 指定前端获取每一页总数据的key值
     page_size_query_param = 'size'
+
+    # 指定默认每一页的数据条数，优秀级最高
+    page_size = 10
+
+    # 指定前端最大的总页数
     max_page_size = 20
-    # 指定默认每一页2条数据
-    # page_size = 10
+
     page_query_description = "第几页"
+
     page_size_query_description = "每页几条"
 
     invalid_page_message = "页码无效"  # 指定错误页面的提示
 
     def get_paginated_response(self, data):
         response = super().get_paginated_response(data)
-        # "total_pages": 6,
-        # "current_page_num": 2
-        response.data["current_page_num"] = self.page.number
-        response.data["total_pages"] = self.page.paginator.num_pages
-
+        response.data['current_page_num'] = self.page.number
+        response.data['total_page'] = self.page.paginator.num_pages
         return response
