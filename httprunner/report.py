@@ -67,7 +67,8 @@ def render_html_report(summary, html_report_name=None, html_report_template=None
         html_report_template = os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             "templates",
-            "default_report_template.html"
+            "extent_report_template.html"  # 修改之后的html报告模版
+            # "default_report_template.html"  # 原来的默认模版
         )
         logger.log_debug("No html report template specified, use default.")
     else:

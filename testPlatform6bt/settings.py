@@ -273,7 +273,7 @@ LOGGING = {
 }
 
 
-# 在全局配置文件中, 添加全局变量信息
+# 在全局配置文件中, 指定测试报告保存的地方
 REPORTS_DIR = os.path.join(BASE_DIR, 'reports')
 
 # 在全局配置文件中, 指定用例存放的目录

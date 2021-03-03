@@ -8,16 +8,16 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 
 from .models import Testsuites
-from .serializers import TestsuitsModelSerializer, TestsuitsRunSerializer
+from .serializers import TestsuitesModelSerializer, TestsuitesRunSerializer
 from envs.models import Envs
 from testcases.models import Testcases
 from utils import common
 from .utils import get_testcases_by_interface_ids
 
 
-class TestsuitsViewSet(ModelViewSet):
+class TestsuitesViewSet(ModelViewSet):
     queryset = Testsuites.objects.all()
-    serializer_class = TestsuitsModelSerializer
+    serializer_class = TestsuitesModelSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     @action(methods=['post'], detail=True)
@@ -55,4 +55,4 @@ class TestsuitsViewSet(ModelViewSet):
         不同的action选择不同的序列化器
         :return:
         """
-        return TestsuitsRunSerializer if self.action == 'run' else self.serializer_class
+        return TestsuitesRunSerializer if self.action == 'run' else self.serializer_class

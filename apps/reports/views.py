@@ -5,8 +5,6 @@ from rest_framework import mixins
 from rest_framework.viewsets import GenericViewSet
 from rest_framework import permissions
 from rest_framework.decorators import action
-from rest_framework.response import Response
-from rest_framework import status
 from django.http.response import StreamingHttpResponse
 from django.conf import settings
 from django.utils.encoding import escape_uri_path
@@ -16,7 +14,7 @@ from .models import Reports
 from .utils import get_file_content
 
 
-class ReportsViewset(mixins.ListModelMixin,
+class ReportsViewSet(mixins.ListModelMixin,
                      mixins.RetrieveModelMixin,
                      mixins.DestroyModelMixin,
                      GenericViewSet):
@@ -39,7 +37,7 @@ class ReportsViewset(mixins.ListModelMixin,
 
         # 2、将源码写入到html文件中
         # 获取测试报告的存放路径
-        report_dir = settings.REPORT_DIR
+        report_dir = settings.REPORTS_DIR
         # 生成测试报告的完整路径
         report_full_dir = os.path.join(report_dir, instance.name + '.html')
         # 如果测试报告在reports目录下不存在，那么才生成HTML报告文件
@@ -54,7 +52,8 @@ class ReportsViewset(mixins.ListModelMixin,
         # 字节类型 --> 字符串
         # byte.decode('utf-8')
 
-        # one_file_byte = instance.html.encode()
+        # one_file_byte = instance.html.
+        # \encode()
         one_file_byte = instance.html
         # response = StreamingHttpResponse(get_file_content(report_full_dir))
         response = StreamingHttpResponse(iter(one_file_byte))

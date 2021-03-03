@@ -4,7 +4,7 @@ from . import views
 
 router = routers.SimpleRouter()
 
-router.register(r'reports', views.ReportsViewset)
+router.register(r'reports', views.ReportsViewSet)
 
 urlpatterns = [
 ]

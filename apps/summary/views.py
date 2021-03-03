@@ -27,7 +27,7 @@ class SummaryAPIView(APIView):
         user = request.user
         user_info = {
             'username': user.username,
-            'role':  '管理员' if user.is_superuser else '普通用户',
+            'role': '管理员' if user.is_superuser else '普通用户',
             'date_joined': user.date_joined.strftime('%Y-%m-%d %H:%M:%S') if user.date_joined else '',
             'last_login': user.last_login.strftime('%Y-%m-%d %H:%M:%S') if user.last_login else '',
         }
@@ -35,7 +35,7 @@ class SummaryAPIView(APIView):
         projects_count = Projects.objects.count()
         interfaces_count = Interfaces.objects.count()
         testcases_count = Testcases.objects.count()
-        testsuits_count = Testsuites.objects.count()
+        testsuites_count = Testsuites.objects.count()
         configures_count = Configures.objects.count()
         envs_count = Envs.objects.count()
         debug_talks_count = DebugTalks.objects.count()
@@ -55,7 +55,7 @@ class SummaryAPIView(APIView):
             'projects_count': projects_count,
             'interfaces_count': interfaces_count,
             'testcases_count': testcases_count,
-            'testsuits_count': testsuits_count,
+            'testsuites_count': testsuites_count,
             'configures_count': configures_count,
             'envs_count': envs_count,
             'debug_talks_count': debug_talks_count,

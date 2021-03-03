@@ -18,7 +18,7 @@ from utils import handle_datas, common
 
 class TestcasesViewSet(ModelViewSet):
     queryset = Testcases.objects.all()
-    serializer_class = serializers.TestcaseModelSerailizer
+    serializer_class = serializers.TestcaseModelSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def retrieve(self, request, *args, **kwargs):
@@ -111,7 +111,7 @@ class TestcasesViewSet(ModelViewSet):
         # 1、取出用例的模型对象
         instance = self.get_object()
 
-        serializer= self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         env_id = serializer.validated_data.get('env_id')
         env = Envs.objects.get(id=env_id)

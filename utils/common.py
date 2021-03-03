@@ -39,7 +39,6 @@ def generate_testcase_file(instance, env, testcase_dir_path):
     testcase_dir_path = os.path.join(testcase_dir_path, project_name)
 
     # 如果要创建嵌套的多级目录时，往往使用os.makedirs
-    # os.mkdir()
     if not os.path.exists(testcase_dir_path):
         os.makedirs(testcase_dir_path)
 

@@ -35,7 +35,7 @@ class InterfacesProjectsModelSerializer(serializers.ModelSerializer):
         return attrs
 
 
-class TestcaseModelSerailizer(serializers.ModelSerializer):
+class TestcaseModelSerializer(serializers.ModelSerializer):
     interface = InterfacesProjectsModelSerializer(label='所属项目和接口信息', help_text='所属项目和接口信息')
 
     class Meta:

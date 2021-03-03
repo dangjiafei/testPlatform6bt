@@ -1,8 +1,6 @@
 import re
 
 from rest_framework import serializers
-from rest_framework import validators
-
 from .models import Testsuites
 from projects.models import Projects
 from interfaces.models import Interfaces
@@ -10,7 +8,11 @@ from utils import handle_validates
 
 
 def validate_include(value):
-    # obj = eval(value)
+    """
+    校验包含的接口是否为列表以及接口是否存在
+    :param value: include
+    :return:
+    """
     obj = re.match(r'^\[\d+(, *\d+)*\]$', value)
     if obj is None:
         raise serializers.ValidationError('参数格式有误')
@@ -23,10 +25,10 @@ def validate_include(value):
 
     for item in data:
         if not Interfaces.objects.filter(id=item).exists():
-            raise serializers.ValidationError(f'接口id【{item}】不存在')
+            raise serializers.ValidationError(f'接口id[{item}]不存在')
 
 
-class TestsuitsModelSerializer(serializers.ModelSerializer):
+class TestsuitesModelSerializer(serializers.ModelSerializer):
     project = serializers.StringRelatedField(label='所属项目名称', help_text='所属项目名称')
     project_id = serializers.PrimaryKeyRelatedField(label='所属项目id', help_text='所属项目id',
                                                     queryset=Projects.objects.all())
@@ -67,7 +69,7 @@ class TestsuitsModelSerializer(serializers.ModelSerializer):
     #         return super().update(instance, validated_data)
 
 
-class TestsuitsRunSerializer(serializers.ModelSerializer):
+class TestsuitesRunSerializer(serializers.ModelSerializer):
     """
     通过套件来运行测试用例序列化器
     """
