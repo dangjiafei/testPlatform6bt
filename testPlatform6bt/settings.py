@@ -80,8 +80,7 @@ ROOT_URLCONF = 'testPlatform6bt.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,6 +110,17 @@ DATABASES = {
         'PASSWORD': 'djf19950815@.',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',  # 连接数据库的类型
+#         'NAME': 'testPlatform6bt',  # 数据库名
+#         'HOST': 'db',  # 数据库主机地址
+#         'PORT': 3306,  # 数据库的端口
+#         'USER': 'root',
+#         'PASSWORD': 'djf19950815',
+#     }
+# }
 
 
 # Password validation
@@ -211,7 +221,7 @@ JWT_AUTH = {
     # b、指定自定义项目结果处理的函数
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'utils.handle_jwt.jwt_response_payload_handler',
     # c、指定token有效期，默认为5分钟
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
     # d、修改前端创建token时，请求头值的前缀，默认JWT
     # e、在请求头中，Authorization: JWT 具体的token值
     # 'JWT_AUTH_HEADER_PREFIX': 'Bear',
@@ -255,7 +265,7 @@ LOGGING = {
         'file': {
             'level': 'INFO',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(BASE_DIR, "logs/test.log"),  # 文件的位置
+            'filename': os.path.join(BASE_DIR, "logs/testPlatform.log"),  # 文件的位置
             'maxBytes': 100 * 1024 * 1024,  # 每一个日志文件的最大字节数
             'backupCount': 10,  # 指定日志文件总数
             'formatter': 'verbose',
@@ -279,5 +289,5 @@ REPORTS_DIR = os.path.join(BASE_DIR, 'reports')
 # 在全局配置文件中, 指定用例存放的目录
 SUITES_DIR = os.path.join(BASE_DIR, 'suites')
 
-# 创建STATIC_ROOT, 存放静态文件的目录
+# 创建STATIC_ROOT(固定名称), 存放静态文件的目录
 STATIC_ROOT = os.path.join(BASE_DIR, "static")

@@ -114,12 +114,7 @@ def generate_report(runner, instance):
             continue
 
     summary = json.dumps(runner.summary, ensure_ascii=False)
-    # result = summary.get('success')
-    # count
-    # success
-    # html
     # 生成报告
-    # report_path = runner.gen_html_report(html_report_name=)
     report_name = report_name + '_' + datetime.strftime(datetime.now(), '%Y%m%d%H%M%S')
     report_path = runner.gen_html_report(html_report_name=report_name)
 

@@ -26,6 +26,7 @@ def get_platform():
         "platform": platform.platform()
     }
 
+
 def get_summary(result):
     """ get summary from test result
     """
@@ -41,11 +42,11 @@ def get_summary(result):
         }
     }
     summary["stat"]["successes"] = summary["stat"]["testsRun"] \
-        - summary["stat"]["failures"] \
-        - summary["stat"]["errors"] \
-        - summary["stat"]["skipped"] \
-        - summary["stat"]["expectedFailures"] \
-        - summary["stat"]["unexpectedSuccesses"]
+                                   - summary["stat"]["failures"] \
+                                   - summary["stat"]["errors"] \
+                                   - summary["stat"]["skipped"] \
+                                   - summary["stat"]["expectedFailures"] \
+                                   - summary["stat"]["unexpectedSuccesses"]
 
     if getattr(result, "records", None):
         summary["time"] = {
@@ -58,6 +59,7 @@ def get_summary(result):
 
     return summary
 
+
 def render_html_report(summary, html_report_name=None, html_report_template=None):
     """ render html report with specified report name and template
         if html_report_name is not specified, use current datetime
@@ -67,8 +69,8 @@ def render_html_report(summary, html_report_name=None, html_report_template=None
         html_report_template = os.path.join(
             os.path.abspath(os.path.dirname(__file__)),
             "templates",
-            "extent_report_template.html"  # 修改之后的html报告模版
-            # "default_report_template.html"  # 原来的默认模版
+            "extent_report_template.html",
+            # "default_report_template.html",
         )
         logger.log_debug("No html report template specified, use default.")
     else:
@@ -110,6 +112,7 @@ def render_html_report(summary, html_report_name=None, html_report_template=None
 
     return report_path
 
+
 def stringify_data(meta_data, request_or_response):
     headers = meta_data[request_or_response]["headers"]
 
@@ -144,11 +147,13 @@ def stringify_data(meta_data, request_or_response):
 
         meta_data[request_or_response][key] = value
 
+
 class HtmlTestResult(unittest.TextTestResult):
     """A html result class that can generate formatted html results.
 
     Used by TextTestRunner.
     """
+
     def __init__(self, stream, descriptions, verbosity):
         super(HtmlTestResult, self).__init__(stream, descriptions, verbosity)
         self.records = []
